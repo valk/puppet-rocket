@@ -20,6 +20,9 @@ Environment=ROOT_URL=<%= @root_url %>
 <%- if @mongo_replset -%>
 Environment=MONGO_OPLOG_URL=mongodb://<%= @mongo_host%>:<%= @mongo_port%>/local<%= authstring %><%= replstring %>
 <%- end -%>
+<%- if @user_presence_monitor -%>
+Environment=USER_PRESENCE_MONITOR=1
+<%- end -%>
 
 [Install]
 WantedBy=multi-user.target
