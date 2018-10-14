@@ -5,6 +5,7 @@ class rocketchat::service (
   $mongo_host,
   $database_name,
   $root_url,
+  $user_presence_monitor,
   $destination,
   $mongo_port,
   $mongo_replset,
