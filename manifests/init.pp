@@ -14,6 +14,7 @@
 #
 class rocketchat (
   $port           = $rocketchat::params::port,
+  $instance_count = $rocketchat::params::instance_count,
   $root_url       = $rocketchat::params::root_url,
   $download_path  = $rocketchat::params::download_path,
   $destination    = $rocketchat::params::destination,
@@ -53,14 +54,15 @@ class rocketchat (
   }
 
   class { 'rocketchat::service':
-    port          => $port,
-    mongo_host    => $mongo_host,
-    mongo_port    => $mongo_port,
-    mongo_replset => $mongo_replset,
-    authsource    => $authsource,
-    database_name => $database_name,
-    root_url      => $root_url,
-    destination   => $destination,
-    require       => Class['rocketchat::install']
+    port           => $port,
+    instance_count => $instance_count,
+    mongo_host     => $mongo_host,
+    mongo_port     => $mongo_port,
+    mongo_replset  => $mongo_replset,
+    authsource     => $authsource,
+    database_name  => $database_name,
+    root_url       => $root_url,
+    destination    => $destination,
+    require        => Class['rocketchat::install']
   }
 }

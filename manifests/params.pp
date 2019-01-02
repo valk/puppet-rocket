@@ -1,5 +1,6 @@
 class rocketchat::params {
   $port           = 80
+  $instance_count = 1
   $verbose        = false
   $manage_repos   = true
   $download_path  = '/tmp'
