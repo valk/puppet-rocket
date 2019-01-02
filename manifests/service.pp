@@ -9,25 +9,48 @@ class rocketchat::service (
   $mongo_port,
   $mongo_replset,
   $authsource,
+  $instance_count = 1,
   $instance_ip = undef
 ) {
-
-  file { '/etc/systemd/system/rocket.service':
-    ensure  => 'file',
-    content => template("${module_name}/rocket.service.erb")
-  }
 
   if ($mongo_host == 'localhost') {
     service { 'mongod':
       ensure => 'running',
       enable => true,
-      before => Service['rocket'],
     }
   }
 
-  service { 'rocket':
-    ensure  => 'running',
-    enable  => true,
-    require => File['/etc/systemd/system/rocket.service']
+  if $instance_count == 1 {
+
+    file { '/etc/systemd/system/rocket.service':
+      ensure  => 'file',
+      content => template("${module_name}/rocket.service.erb")
+    }
+
+    service { 'rocket':
+      ensure  => 'running',
+      enable  => true,
+      require => File['/etc/systemd/system/rocket.service']
+    }
+    if defined(Service['mongod']) {
+      Service['mongod'] -> Service['rocket']
+    }
+  } else {
+
+    file { '/etc/systemd/system/rocket@.service':
+      ensure  => 'file',
+      content => template("${module_name}/rocket.service.erb")
+    }
+
+    Integer[$port, ($port + $instance_count - 1)].each |$instance_port| {
+      service { "rocket@${instance_port}":
+        ensure  => 'running',
+        enable  => true,
+        require => File['/etc/systemd/system/rocket@.service']
+      }
+      if defined(Service['mongod']) {
+        Service['mongod'] -> Service["rocket@${instance_port}"]
+      }
+    }
   }
 }
