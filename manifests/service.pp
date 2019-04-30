@@ -10,7 +10,8 @@ class rocketchat::service (
   $mongo_replset,
   $authsource,
   $instance_count = 1,
-  $instance_ip = undef
+  $instance_ip = undef,
+  $max_old_space_size = 1423
 ) {
 
   if ($mongo_host == 'localhost') {
