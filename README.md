@@ -19,7 +19,7 @@ This Puppet module installs Rocket.Chat. It will also install MongoDB and config
 
 ## Module Description
 
-You can use this module to automate some steps in installation and configuration of Rocket.Chat. For now this module will download and prepare everythink to run Rocket.Chat instance.
+You can use this module to automate some steps in installation and configuration of Rocket.Chat. For now this module will download and prepare everything to run Rocket.Chat instance.
 
 ## Setup
 
